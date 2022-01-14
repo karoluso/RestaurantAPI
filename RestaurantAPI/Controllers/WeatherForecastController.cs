@@ -26,5 +26,21 @@ namespace RestaurantAPI.Controllers
             var results=_service.Get();
             return results;
         }
+
+        [HttpGet("currentDay/{max}")]
+        //[Route("currentDay")]
+        public IEnumerable<WeatherForecast> Get2([FromQuery]int? take, [FromRoute]int? max)
+        {
+            var results = _service.Get();
+            return results;
+        }
+
+        [HttpPost]
+        public ActionResult<string>   Hello([FromBody] string name)
+        {
+            // HttpContext.Response.StatusCode = 401;
+            // return StatusCode(401, $"Hello {name}");
+            return NotFound($"Hello {name}");
+        }
     }
 }
