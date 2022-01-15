@@ -14,33 +14,32 @@ namespace RestaurantAPI.Controllers
         private readonly ILogger<WeatherForecastController> _logger;
         private IWeatherForecastService _service;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger,IWeatherForecastService service)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IWeatherForecastService service)
         {
             _logger = logger;
             _service = service;
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public TempRange Get()
         {
-            var results=_service.Get();
-            return results;
+            var range = new TempRange() { MaxTemp = 10, MinTemp = 20 };
+
+            return range;
         }
 
-        [HttpGet("currentDay/{max}")]
-        //[Route("currentDay")]
-        public IEnumerable<WeatherForecast> Get2([FromQuery]int? take, [FromRoute]int? max)
-        {
-            var results = _service.Get();
-            return results;
-        }
-
-        [HttpPost]
-        public ActionResult<string>   Hello([FromBody] string name)
+        [HttpPost("generate")]
+        public ActionResult<IEnumerable<WeatherForecast>> Genereate([FromQuery] int numOfResults, [FromBody] TempRange range)
         {
             // HttpContext.Response.StatusCode = 401;
             // return StatusCode(401, $"Hello {name}");
-            return NotFound($"Hello {name}");
+
+            if (numOfResults > 0 && range.MaxTemp > range.MinTemp)
+            {
+                var results = _service.Get(numOfResults, range.MinTemp, range.MaxTemp);
+                return Ok(results);
+            }
+                return BadRequest();
         }
     }
 }
