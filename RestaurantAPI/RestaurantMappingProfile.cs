@@ -5,21 +5,28 @@ using RestaurantAPI.Entities;
 using RestaurantAPI.Models;
 using System.Security.Cryptography;
 
-namespace RestaurantAPI
+namespace RestaurantAPI 
 {
     public class RestaurantMappingProfile : Profile
     {
         public RestaurantMappingProfile()
         {
             CreateMap<Restaurant, RestaurantDto>()
-                .ForMember(dest => dest.Street,
-                opt => opt.MapFrom(src => src.Address.Street))
-                .ForMember(dest => dest.City,
-                opt => opt.MapFrom(src => src.Address.City))
-                .ForMember(dest => dest.PostalCode,
-                opt => opt.MapFrom(src => src.Address.PostalCode));
+                .ForMember(dest => dest.Street, opt => opt.MapFrom(src => src.Address.Street))
+                .ForMember(dest => dest.City,opt => opt.MapFrom(src => src.Address.City))
+                .ForMember(dest => dest.PostalCode,opt => opt.MapFrom(src => src.Address.PostalCode));
 
             CreateMap<Dish, DishDto>();
+
+        
+
+            CreateMap<CreateRedtaurantDto, Restaurant>()
+                .ForMember(dest => dest.Address, opt => opt.MapFrom(src => new Address()
+                {
+                    Street = src.Street,
+                    City = src.City,
+                    PostalCode = src.PostalCode
+                }));
         }
     }
 }
