@@ -34,29 +34,32 @@ namespace RestaurantAPI.Controllers
             //var restaurantDtos = restaurants.Select(r =>  ChangeToDto(r) ); //mapping long way
 
             //var restaurantDtos = restaurants.Select(r => _mapper.Map<RestaurantDto>(r));
+
             var restaurantDtos = _mapper.Map<List<RestaurantDto>>(restaurants);
 
             return Ok(restaurantDtos);
         }
 
-        private RestaurantDto ChangeToDto(Restaurant r)
-        {
-            var dto = new RestaurantDto()
-            {
-              Id = r.Id,
-                Name = r.Name,
-                Description = r.Description,
-               Category = r.Category
-            };
-            return dto;
-        }
+       // private RestaurantDto ChangeToDto(Restaurant r)
+        //{
+        //    var dto = new RestaurantDto()
+        //    {
+        //      Id = r.Id,
+        //        Name = r.Name,
+        //        Description = r.Description,
+        //       Category = r.Category
+        //    };
+        //    return dto;
+        //}
 
         [HttpGet("{id}")]
         public ActionResult<RestaurantDto> GetOne(int id)
         {
             var restaurant = _dbContext
                 .Restaurants
-                .FirstOrDefault(x => x.Id == id);
+                .Include(_r => _r.Address)
+                .Include(_r => _r.Dishes)
+                .FirstOrDefault(r => r.Id == id);
 
             if (restaurant is null)
             {
