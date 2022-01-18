@@ -37,11 +37,14 @@ namespace RestaurantAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<RestaurantDto>> GetAll()
         {
-            var restaurants = _dbContext
+            var restaurants = _dbContext   //  jak zwrocic bez mapowania zeby czytalo rowniez liste dan ???????????????
                 .Restaurants
                 .Include(r=>r.Address)
                 .Include(r=>r.Dishes)
                 .ToList();
+
+
+
 
             //var restaurantDtos = restaurants.Select(r =>  ChangeToDto(r) ); //mapping long way
 
