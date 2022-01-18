@@ -14,6 +14,6 @@ namespace RestaurantAPI.Models
         public string Street { get; set; }
         public  string  PostalCode { get; set; }
 
-        List<DishDto> Dishes { get; set; }
+       public  List<DishDto> Dishes { get; set; }
     }
 }
