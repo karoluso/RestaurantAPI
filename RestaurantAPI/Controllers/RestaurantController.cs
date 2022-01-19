@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RestaurantAPI.Entities;
 using RestaurantAPI.Models;
+using RestaurantAPI.Services;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,13 +15,11 @@ namespace RestaurantAPI.Controllers
     [Route("api/restaurant")]
     public class RestaurantController : ControllerBase
     {
-        private readonly RestaurantDbContext _dbContext;
-        private readonly IMapper _mapper;
+        private readonly IRestaurantService _service;
 
-        public RestaurantController(RestaurantDbContext dbContext, IMapper mapper)
+        public RestaurantController( IRestaurantService service)
         {
-            _dbContext = dbContext;
-            _mapper = mapper;
+            _service = service;
         }
 
         [HttpPost]
@@ -32,30 +31,24 @@ namespace RestaurantAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var restaurant =_mapper.Map<Restaurant>(dto);
+           int id= _service.CreateRestaurant(dto);
 
-            _dbContext.Restaurants.Add(restaurant);
-            _dbContext.SaveChanges();
-
-            return Created($"/api/restaruant/{restaurant.Id}", null);
+            return Created($"/api/restaruant/{id}", null);
         }
 
 
         [HttpGet]
         public ActionResult<IEnumerable<RestaurantDto>> GetAll()
         {
-            var restaurants = _dbContext   
-                .Restaurants
-                .Include(r=>r.Address)
-                .Include(r=>r.Dishes)
-                .ToList();
-
-
+            #region alternative 
             //var restaurantDtos = restaurants.Select(r =>  ChangeToDto(r) ); //mapping long way
 
             //var restaurantDtos = restaurants.Select(r => _mapper.Map<RestaurantDto>(r)); //alternative way to teh below
 
-            var restaurantDtos = _mapper.Map<List<RestaurantDto>>(restaurants);
+            //var restaurantDtos = _mapper.Map<List<RestaurantDto>>(restaurants);
+            #endregion
+
+            var restaurantDtos = _service.GetAll();
 
             return Ok(restaurantDtos);
         }
@@ -75,18 +68,12 @@ namespace RestaurantAPI.Controllers
         [HttpGet("{id}")]
         public ActionResult<RestaurantDto> GetOne(int id)
         {
-            var restaurant = _dbContext
-                .Restaurants
-                .Include(_r => _r.Address)
-                .Include(_r => _r.Dishes)
-                .FirstOrDefault(r => r.Id == id);
+            var restaurantDto=_service.GetById(id);
 
-            if (restaurant is null)
+            if (restaurantDto is null)
             {
                 return NotFound();
             }
-
-            var restaurantDto = _mapper.Map<RestaurantDto>(restaurant);
             
             return Ok(restaurantDto);
         }

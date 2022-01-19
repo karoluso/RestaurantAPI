@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace RestaurantAPI.Services
 {
-    public class RestaurantServices
+    public class RestaurantServices :IRestaurantService
     {
         private readonly RestaurantDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -49,6 +49,14 @@ namespace RestaurantAPI.Services
         }
 
 
-        public void CreateRestaurant(RestaurantDto)
+        public int CreateRestaurant(CreateRedtaurantDto dto)
+        {
+            var restaurant = _mapper.Map<Restaurant>(dto);
+
+            _dbContext.Restaurants.Add(restaurant);
+            _dbContext.SaveChanges();
+
+            return restaurant.Id;
+        }
     }
 }
