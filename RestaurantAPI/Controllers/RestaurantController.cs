@@ -10,6 +10,7 @@ using System.Linq;
 
 namespace RestaurantAPI.Controllers
 {
+    //[ApiController]
     [Route("api/restaurant")]
     public class RestaurantController : ControllerBase
     {
@@ -23,8 +24,14 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpPost]
+       
         public ActionResult CreateRestaurant ([FromBody]CreateRedtaurantDto dto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var restaurant =_mapper.Map<Restaurant>(dto);
 
             _dbContext.Restaurants.Add(restaurant);
@@ -37,18 +44,16 @@ namespace RestaurantAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<RestaurantDto>> GetAll()
         {
-            var restaurants = _dbContext   //  jak zwrocic bez mapowania zeby czytalo rowniez liste dan ???????????????
+            var restaurants = _dbContext   
                 .Restaurants
                 .Include(r=>r.Address)
                 .Include(r=>r.Dishes)
                 .ToList();
 
 
-
-
             //var restaurantDtos = restaurants.Select(r =>  ChangeToDto(r) ); //mapping long way
 
-            //var restaurantDtos = restaurants.Select(r => _mapper.Map<RestaurantDto>(r));
+            //var restaurantDtos = restaurants.Select(r => _mapper.Map<RestaurantDto>(r)); //alternative way to teh below
 
             var restaurantDtos = _mapper.Map<List<RestaurantDto>>(restaurants);
 
