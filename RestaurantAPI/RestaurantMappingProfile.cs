@@ -20,13 +20,16 @@ namespace RestaurantAPI
 
         
 
-            CreateMap<CreateRedtaurantDto, Restaurant>()
+            CreateMap<CreateRestaurantDto, Restaurant>()
                 .ForMember(dest => dest.Address, opt => opt.MapFrom(src => new Address()
                 {
                     Street = src.Street,
                     City = src.City,
                     PostalCode = src.PostalCode
                 }));
+
+
+            CreateMap<ModifyRestaurantDto, Restaurant>();
         }
     }
 }

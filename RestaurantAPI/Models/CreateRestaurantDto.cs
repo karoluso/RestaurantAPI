@@ -2,7 +2,7 @@
 
 namespace RestaurantAPI.Models
 {
-    public class CreateRedtaurantDto
+    public class CreateRestaurantDto
     {
         [Required, MaxLength(25)]
         public string Name { get; set; }
