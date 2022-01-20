@@ -2,7 +2,7 @@
 
 namespace RestaurantAPI.Models
 {
-    public class ModifyRestaurantDto
+    public class UpdateRestaurantDto
     {
         [Required, MaxLength(25)]
         public string Name { get; set; }

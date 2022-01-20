@@ -21,17 +21,15 @@ namespace RestaurantAPI.Services
         }
 
 
-        public bool ModifyRestaurant(int id, ModifyRestaurantDto dto)
+        public bool Update(int id, UpdateRestaurantDto dto)
         {
             var restaurant=_dbContext.Restaurants
                 .FirstOrDefault(r => r.Id == id);
 
             if (restaurant == null) return false;
 
-            restaurant.Name = dto.Name;
-            restaurant.Description = dto.Description;
-            restaurant.HasDelivery = dto.HasDelivery;
-
+            restaurant = _mapper.Map(dto, restaurant);
+                                                                    
             _dbContext.Restaurants.Update(restaurant);
             _dbContext.SaveChanges();
 

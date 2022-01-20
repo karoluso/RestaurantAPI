@@ -13,6 +13,6 @@ namespace RestaurantAPI.Services
 
         public bool  Delete(int id);
 
-        public bool ModifyRestaurant(int id, ModifyRestaurantDto dto);
+        public bool Update(int id, UpdateRestaurantDto dto);
     }
 }

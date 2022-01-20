@@ -25,21 +25,21 @@ namespace RestaurantAPI.Controllers
 
 
         [HttpPut("{id}")]
-        public ActionResult ModifyRestaurant([FromRoute] int id , [FromBody] ModifyRestaurantDto dto)
+        public ActionResult Update([FromRoute] int id , [FromBody] UpdateRestaurantDto dto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var isModified=_restaurantService.ModifyRestaurant(id, dto);
+            var isUpdated=_restaurantService.Update(id, dto);
 
-            if(isModified)
+            if(isUpdated)
             {
                 return Ok();
             }
 
-            return BadRequest();
+            return NotFound();
         }
 
 

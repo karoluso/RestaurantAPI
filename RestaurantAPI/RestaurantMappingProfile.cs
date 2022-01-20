@@ -29,7 +29,7 @@ namespace RestaurantAPI
                 }));
 
 
-            CreateMap<ModifyRestaurantDto, Restaurant>();
+            CreateMap<UpdateRestaurantDto, Restaurant>();
         }
     }
 }
