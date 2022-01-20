@@ -15,15 +15,30 @@ namespace RestaurantAPI.Controllers
     [Route("api/restaurant")]
     public class RestaurantController : ControllerBase
     {
-        private readonly IRestaurantService _service;
+        private readonly IRestaurantService _restaurantService;
 
-        public RestaurantController( IRestaurantService service)
+        public RestaurantController(IRestaurantService service)
         {
-            _service = service;
+            _restaurantService = service;
         }
 
+
+
+        [HttpDelete("{id}")]
+        public ActionResult Delete ([FromRoute] int id)
+        {
+            var isDeleted=_restaurantService.Delete(id);
+
+            if (isDeleted)
+            {
+                return NoContent();
+            }
+            
+            return NotFound();
+        }
+
+
         [HttpPost]
-       
         public ActionResult CreateRestaurant ([FromBody]CreateRedtaurantDto dto)
         {
             if (!ModelState.IsValid)
@@ -31,7 +46,7 @@ namespace RestaurantAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-           int id= _service.CreateRestaurant(dto);
+           int id= _restaurantService.CreateRestaurant(dto);
 
             return Created($"/api/restaruant/{id}", null);
         }
@@ -48,7 +63,7 @@ namespace RestaurantAPI.Controllers
             //var restaurantDtos = _mapper.Map<List<RestaurantDto>>(restaurants);
             #endregion
 
-            var restaurantDtos = _service.GetAll();
+            var restaurantDtos = _restaurantService.GetAll();
 
             return Ok(restaurantDtos);
         }
@@ -68,7 +83,7 @@ namespace RestaurantAPI.Controllers
         [HttpGet("{id}")]
         public ActionResult<RestaurantDto> GetOne(int id)
         {
-            var restaurantDto=_service.GetById(id);
+            var restaurantDto=_restaurantService.GetById(id);
 
             if (restaurantDto is null)
             {
