@@ -22,11 +22,15 @@ namespace RestaurantAPI.Services
 
         public bool Delete(int id)
         {
-            var restaurant=_dbContext.Restaurants.FirstOrDefault(r=>r.Id == id);
+            var restaurant=_dbContext.Restaurants
+                .Include(r=>r.Address)
+                .FirstOrDefault(r=>r.Id == id);
 
             if (restaurant == null) return false;
 
             _dbContext.Restaurants.Remove(restaurant);
+            _dbContext.Addresses.Remove(restaurant.Address);
+
             _dbContext.SaveChanges();
 
             return true;
