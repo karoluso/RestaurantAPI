@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using RestaurantAPI.Entities;
@@ -13,11 +14,13 @@ namespace RestaurantAPI.Services
     {
         private readonly RestaurantDbContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly ILogger<RestaurantServices> _logger;
 
-        public RestaurantServices(RestaurantDbContext dbContext, IMapper mapper)
+        public RestaurantServices(RestaurantDbContext dbContext, IMapper mapper,ILogger<RestaurantServices> logger)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _logger = logger;
         }
 
 
@@ -39,6 +42,8 @@ namespace RestaurantAPI.Services
 
         public bool Delete(int id)
         {
+            _logger.LogError($"Restaurnt with id: {id} DELETE action invoked");
+
             var restaurant=_dbContext.Restaurants
                 .Include(r=>r.Address)
                 .FirstOrDefault(r=>r.Id == id);
