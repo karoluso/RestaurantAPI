@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace RestaurantAPI.Controllers
 {
-    //[ApiController]
+    [ApiController]
     [Route("api/restaurant")]
     public class RestaurantController : ControllerBase
     {
@@ -25,47 +25,29 @@ namespace RestaurantAPI.Controllers
 
 
         [HttpPut("{id}")]
-        public ActionResult Update([FromRoute] int id , [FromBody] UpdateRestaurantDto dto)
+        public ActionResult Update([FromRoute] int id, [FromBody] UpdateRestaurantDto dto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
-            var isUpdated=_restaurantService.Update(id, dto);
+            _restaurantService.Update(id, dto);
 
-            if(isUpdated)
-            {
-                return Ok();
-            }
-
-            return NotFound();
+            return Ok();
         }
 
 
         [HttpDelete("{id}")]
-        public ActionResult Delete ([FromRoute] int id)
+        public ActionResult Delete([FromRoute] int id)
         {
-            var isDeleted=_restaurantService.Delete(id);
+            _restaurantService.Delete(id);
 
-            if (isDeleted)
-            {
-                return NoContent();
-            }
-            
-            return NotFound();
+            return NoContent();
         }
 
 
         [HttpPost]
-        public ActionResult CreateRestaurant ([FromBody]CreateRestaurantDto dto)
+        public ActionResult CreateRestaurant([FromBody] CreateRestaurantDto dto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
-           int id= _restaurantService.CreateRestaurant(dto);
+            int id = _restaurantService.CreateRestaurant(dto);
 
             return Created($"/api/restaruant/{id}", null);
         }
@@ -87,7 +69,7 @@ namespace RestaurantAPI.Controllers
             return Ok(restaurantDtos);
         }
 
-       // private RestaurantDto ChangeToDto(Restaurant r)
+        // private RestaurantDto ChangeToDto(Restaurant r)
         //{
         //    var dto = new RestaurantDto()
         //    {
@@ -102,13 +84,8 @@ namespace RestaurantAPI.Controllers
         [HttpGet("{id}")]
         public ActionResult<RestaurantDto> GetOne(int id)
         {
-            var restaurantDto=_restaurantService.GetById(id);
+            var restaurantDto = _restaurantService.GetById(id);
 
-            if (restaurantDto is null)
-            {
-                return NotFound();
-            }
-            
             return Ok(restaurantDto);
         }
     }
