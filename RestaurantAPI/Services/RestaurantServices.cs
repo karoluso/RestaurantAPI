@@ -42,7 +42,7 @@ namespace RestaurantAPI.Services
 
         public bool Delete(int id)
         {
-            _logger.LogError($"Restaurnt with id: {id} DELETE action invoked");
+           // _logger.LogError($"Restaurnt with id: {id} DELETE action invoked");
 
             var restaurant=_dbContext.Restaurants
                 .Include(r=>r.Address)
