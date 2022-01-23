@@ -2,13 +2,14 @@
 using Microsoft.Extensions.Logging;
 using RestaurantAPI.Exceptions;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace RestaurantAPI.Middleware
 {
     public class ErrorHandlingMiddleware : IMiddleware
     {
-        private ILogger<ErrorHandlingMiddleware> _logger;
+        private readonly ILogger<ErrorHandlingMiddleware> _logger;
 
         public ErrorHandlingMiddleware(ILogger<ErrorHandlingMiddleware> logger)
         {
@@ -16,6 +17,7 @@ namespace RestaurantAPI.Middleware
         }
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
+            
             try
             {
                 await next.Invoke(context);
