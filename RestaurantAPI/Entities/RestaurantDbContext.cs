@@ -38,7 +38,7 @@ namespace RestaurantAPI.Entities
                 .HasMaxLength(50);
 
             modelBuilder.Entity<User>()
-                .Property(_ => _.Emial)
+                .Property(_ => _.Email)
                 .IsRequired();
 
             modelBuilder.Entity<Role>()
