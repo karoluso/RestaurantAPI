@@ -23,7 +23,6 @@ namespace RestaurantAPI.Controllers
         }
 
 
-
         [HttpPut("{id}")]
         public ActionResult Update([FromRoute] int id, [FromBody] UpdateRestaurantDto dto)
         {
@@ -46,7 +45,6 @@ namespace RestaurantAPI.Controllers
         [HttpPost]
         public ActionResult CreateRestaurant([FromBody] CreateRestaurantDto dto)
         {
-
             int id = _restaurantService.CreateRestaurant(dto);
 
             return Created($"/api/restaruant/{id}", null);

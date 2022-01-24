@@ -1,16 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RestaurantAPI.Entities;
 using RestaurantAPI.Models;
+using RestaurantAPI.Services;
 
 namespace RestaurantAPI.Controllers
 {
-    [Route("api/{restaurantId}/dish")]
+    [Route("api/restaurant/{restaurantId}/dish")]
     [ApiController]
     public class DishController : ControllerBase
     {
-        [HttpPost("{restaurantId}")]
-        public ActionResult Post([FromRoute] int restaurantId, [FromBody] DishDto dto)
+        private IDishService _service;
+
+        public DishController(IDishService service)
         {
-            var dish=_mapper
+            _service = service;
+        }
+
+
+        [HttpPost]
+        public ActionResult Post([FromRoute] int restaurantId, [FromBody] CreateDishDto dto)
+        {
+            int newDishId=_service.Create(restaurantId, dto);
+
+            return Created($"api/restaurant/{restaurantId}/dish/{newDishId}",null);
         }
     }
 }

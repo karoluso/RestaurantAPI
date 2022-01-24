@@ -18,8 +18,6 @@ namespace RestaurantAPI
 
             CreateMap<Dish, DishDto>();
 
-        
-
             CreateMap<CreateRestaurantDto, Restaurant>()
                 .ForMember(dest => dest.Address, opt => opt.MapFrom(src => new Address()
                 {
@@ -30,6 +28,8 @@ namespace RestaurantAPI
 
 
             CreateMap<UpdateRestaurantDto, Restaurant>();
+
+            CreateMap<CreateDishDto,Dish>();
         }
     }
 }
