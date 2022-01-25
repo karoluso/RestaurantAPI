@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using RestaurantAPI.Entities;
 using RestaurantAPI.Models;
-
+using System.Linq;
 
 namespace RestaurantAPI.Services
 {
@@ -32,7 +32,5 @@ namespace RestaurantAPI.Services
             _dbContext.Users.Add(newUser);
             _dbContext.SaveChanges();
         }
-
-
     }
 }
