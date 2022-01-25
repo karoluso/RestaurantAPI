@@ -37,6 +37,7 @@ namespace RestaurantAPI
             services.AddAutoMapper(this.GetType().Assembly);
             services.AddTransient<IRestaurantService,RestaurantServices>();
             services.AddTransient<IDishService, DishService>();
+            services.AddTransient<IAccountService, AccountService>();
             services.AddScoped<ErrorHandlingMiddleware>();
             services.AddScoped<RequestTimeMiddleware>();
             services.AddSwaggerGen();
