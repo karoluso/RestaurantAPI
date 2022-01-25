@@ -10,10 +10,10 @@ namespace RestaurantAPI.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime? DateOfBirth { get; set; }
-        public string nationality { get; set; }
+        public string Nationality { get; set; }
         public string PassswordHash { get; set; }
 
-        public int RoleiId { get; set; }
+        public int RoleId { get; set; }
         public virtual Role Role { get; set; }
 
     }
