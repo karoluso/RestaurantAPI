@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using RestaurantAPI.Entities;
 using RestaurantAPI.Middleware;
 using RestaurantAPI.Models;
 using RestaurantAPI.Models.Validators;
 using RestaurantAPI.Services;
+using System.Text;
 
 namespace RestaurantAPI
 {
@@ -32,10 +34,20 @@ namespace RestaurantAPI
 
             services.AddAuthentication(option =>
             {
+                option.DefaultAuthenticateScheme = "Bearer";
                 option.DefaultScheme = "Bearer";
-                option.DefaultAuthenticateScheme=
-
-            })
+                option.DefaultChallengeScheme = "Bearer";
+            }).AddJwtBearer(cfg =>
+            {
+                cfg.RequireHttpsMetadata = false;
+                cfg.SaveToken = true;
+                cfg.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidIssuer = authenticationSettings.JwtIssuer,
+                    ValidAudience = authenticationSettings.JwtIssuer,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationSettings.JwtKey)),
+                };
+            });
 
             services.AddTransient<IWeatherForecastService, WeatherForecastService>();
             services.AddControllers().AddFluentValidation();
@@ -66,7 +78,7 @@ namespace RestaurantAPI
             }
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseMiddleware<RequestTimeMiddleware>();
-
+            app.UseAuthentication();
             app.UseHttpsRedirection();
 
             app.UseSwagger();
