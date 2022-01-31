@@ -15,7 +15,10 @@
      the properties that corresponds to those written in appsettings.json. GetSection - we need to give a name 
      of the section from the appsettings.json;
 
-
+     > app.UseRouting();
+      app.UseAuthorization(); ( must be between userouting and useendpoints);
+      app.UseEndpoints(endpoints =>
+      
 
      Add validation fro LoginUserDto
 

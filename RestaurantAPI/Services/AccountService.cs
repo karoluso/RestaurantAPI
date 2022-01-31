@@ -38,9 +38,6 @@ namespace RestaurantAPI.Services
                 .Include(u => u.Role)
                 .FirstOrDefaultAsync(u => u.Email == dto.Email);
 
-            //var user =  _dbContext.Users
-            //    .Include(u => u.Role)
-            //    .FirstOrDefault(u => u.Email == dto.Email);
 
             if (user == null)
                 throw new BadRequestException("Invalid username or password");
