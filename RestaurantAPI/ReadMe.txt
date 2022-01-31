@@ -17,5 +17,6 @@
 
 
 
+     Add validation fro LoginUserDto
 
      Doczytac pytanie Co dalej !! z pytan kursu.

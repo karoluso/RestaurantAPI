@@ -8,7 +8,7 @@ namespace RestaurantAPI.Models.Validators
     {
 
 
-        public RegisterUserDtoValidator(RestaurantDbContext dBontext)
+        public RegisterUserDtoValidator(RestaurantDbContext dBcontext)
         {
             RuleFor(_ => _.Email).NotEmpty().EmailAddress();
 
@@ -18,7 +18,7 @@ namespace RestaurantAPI.Models.Validators
 
             RuleFor(_ => _.Email).Custom((value, context) =>
             {
-                var emailInUse = dBontext.Users.Any(_ => _.Email == value);
+                var emailInUse = dBcontext.Users.Any(_ => _.Email == value);
                 if (emailInUse)
                 {
                     context.AddFailure("Email", "Email already in use");
