@@ -32,11 +32,15 @@ namespace RestaurantAPI.Services
             _authenticationSettings = authenticationSettings;
         }
 
-        public string GenerateJwt(LoginDto dto)
+        public async Task<string> GenerateJwt(LoginDto dto)
         {
-            var user =  _dbContext.Users
+            var user = await _dbContext.Users
                 .Include(u => u.Role)
-                .FirstOrDefault(u => u.Email == dto.Email);
+                .FirstOrDefaultAsync(u => u.Email == dto.Email);
+
+            //var user =  _dbContext.Users
+            //    .Include(u => u.Role)
+            //    .FirstOrDefault(u => u.Email == dto.Email);
 
             if (user == null)
                 throw new BadRequestException("Invalid username or password");
@@ -71,7 +75,7 @@ namespace RestaurantAPI.Services
             return tokenhandler.WriteToken(token);
         }
 
-        public void RegisterUser(RegisterUserDto dto)
+        public async Task RegisterUser(RegisterUserDto dto)
         {
             var newUser = new User()
             {
@@ -84,8 +88,8 @@ namespace RestaurantAPI.Services
             var hashedPasswrd = _passwordHasher.HashPassword(newUser, dto.Password);
             newUser.PassswordHash = hashedPasswrd;
 
-            _dbContext.Users.Add(newUser);
-            _dbContext.SaveChanges();
+            await _dbContext.Users.AddAsync(newUser);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
