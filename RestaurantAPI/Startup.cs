@@ -50,6 +50,10 @@ namespace RestaurantAPI
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationSettings.JwtKey)),
                 };
             });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("HasNationality", builder => builder.RequireClaim("Nationality","German", "Polish"));
+            });
 
             services.AddTransient<IWeatherForecastService, WeatherForecastService>();
             services.AddControllers().AddFluentValidation();
