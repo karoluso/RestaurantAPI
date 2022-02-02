@@ -1,14 +1,8 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using RestaurantAPI.Entities;
 using RestaurantAPI.Models;
 using RestaurantAPI.Services;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace RestaurantAPI.Controllers
 {
@@ -45,7 +39,7 @@ namespace RestaurantAPI.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles ="Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager")]
         public ActionResult CreateRestaurant([FromBody] CreateRestaurantDto dto)
         {
             int id = _restaurantService.CreateRestaurant(dto);
@@ -55,7 +49,8 @@ namespace RestaurantAPI.Controllers
 
 
         [HttpGet]
-        [Authorize(Policy ="HasNationality")]
+        //[Authorize(Policy ="HasNationality")]
+        [Authorize(Policy = "HasMinimumAge20")]
         public ActionResult<IEnumerable<RestaurantDto>> GetAll()
         {
             #region alternative 

@@ -23,8 +23,8 @@ namespace RestaurantAPI
                     _dbContext.Roles.AddRange(roles);
                     _dbContext.SaveChanges();
                 }
-                
-                if(!_dbContext.Restaurants.Any())
+
+                if (!_dbContext.Restaurants.Any())
                 {
                     var restaurants = GetRestaurants();
                     _dbContext.Restaurants.AddRange(restaurants);

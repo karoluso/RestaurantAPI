@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.Configuration.Conventions;
 using Microsoft.EntityFrameworkCore;
 using RestaurantAPI.Entities;
 using RestaurantAPI.Exceptions;
@@ -55,7 +54,7 @@ namespace RestaurantAPI.Services
         {
             var restaurant = GetRestaurantById(restaurantId);
 
-            var dish = restaurant.Dishes.FirstOrDefault(d=>d.Id==dishId);
+            var dish = restaurant.Dishes.FirstOrDefault(d => d.Id == dishId);
 
             if (dish == null)
                 throw new NotFoundException("Dish not found");
@@ -82,7 +81,7 @@ namespace RestaurantAPI.Services
         {
             var restaurant = GetRestaurantById(restaurantId);
 
-            var dish=restaurant.Dishes.FirstOrDefault(r=>r.Id==dishId);
+            var dish = restaurant.Dishes.FirstOrDefault(r => r.Id == dishId);
 
             if (dish == null)
                 throw new NotFoundException("Dish not found");

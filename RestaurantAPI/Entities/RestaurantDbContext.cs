@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using System;
 
 namespace RestaurantAPI.Entities
 {
@@ -19,12 +17,12 @@ namespace RestaurantAPI.Entities
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Restaurant>()
-                .Property(r=>r.Name)
+                .Property(r => r.Name)
                 .IsRequired()
                 .HasMaxLength(25);
 
             modelBuilder.Entity<Dish>()
-                .Property(d=>d.Name)
+                .Property(d => d.Name)
                 .IsRequired();
 
             modelBuilder.Entity<Address>()
@@ -47,7 +45,7 @@ namespace RestaurantAPI.Entities
 
         }
 
-        protected override void  OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(_connectionString);
         }

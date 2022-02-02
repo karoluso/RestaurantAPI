@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace RestaurantAPI.Models.Validators
 {
-    public class RegisterUserDtoValidator:AbstractValidator<RegisterUserDto>
+    public class RegisterUserDtoValidator : AbstractValidator<RegisterUserDto>
     {
 
 
@@ -14,7 +14,7 @@ namespace RestaurantAPI.Models.Validators
 
             RuleFor(_ => _.Password).MinimumLength(6);
 
-            RuleFor(_ => _.Password).Equal(_=>_.ConfirmPassword);
+            RuleFor(_ => _.Password).Equal(_ => _.ConfirmPassword);
 
             RuleFor(_ => _.Email).Custom((value, context) =>
             {

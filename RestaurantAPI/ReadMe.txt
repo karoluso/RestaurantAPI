@@ -22,4 +22,8 @@
 
      Add validation fro LoginUserDto
 
+     date of birth  policy - check how to avoid null excep if no dob is goven while registering user
+
+     Add separate log file for logging info only 
+
      Doczytac pytanie Co dalej !! z pytan kursu.

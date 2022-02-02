@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using RestaurantAPI.Exceptions;
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace RestaurantAPI.Middleware
@@ -18,7 +16,7 @@ namespace RestaurantAPI.Middleware
         }
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
-            
+
             try
             {
                 await next.Invoke(context);
@@ -30,13 +28,13 @@ namespace RestaurantAPI.Middleware
             }
             catch (NotFoundException ex)
             {
-                 context.Response.StatusCode = 404;
-               // await context.Response.WriteAsync(ex.Message);
-                await context.Response.WriteAsJsonAsync(new {ex.Message });
+                context.Response.StatusCode = 404;
+                // await context.Response.WriteAsync(ex.Message);
+                await context.Response.WriteAsJsonAsync(new { ex.Message });
             }
             catch (Exception e)
             {
-                _logger.LogError(e,e.Message);
+                _logger.LogError(e, e.Message);
 
                 context.Response.StatusCode = 500;
                 await context.Response.WriteAsync("Something went wrong");

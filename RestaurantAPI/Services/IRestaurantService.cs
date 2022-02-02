@@ -11,7 +11,7 @@ namespace RestaurantAPI.Services
 
         public int CreateRestaurant(CreateRestaurantDto dto);
 
-        public void  Delete(int id);
+        public void Delete(int id);
 
         public void Update(int id, UpdateRestaurantDto dto);
     }

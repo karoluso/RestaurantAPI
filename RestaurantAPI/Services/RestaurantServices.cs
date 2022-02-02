@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 
 using RestaurantAPI.Entities;
 using RestaurantAPI.Exceptions;
@@ -11,13 +10,13 @@ using System.Linq;
 
 namespace RestaurantAPI.Services
 {
-    public class RestaurantServices :IRestaurantService
+    public class RestaurantServices : IRestaurantService
     {
         private readonly RestaurantDbContext _dbContext;
         private readonly IMapper _mapper;
         private readonly ILogger<RestaurantServices> _logger;
 
-        public RestaurantServices(RestaurantDbContext dbContext, IMapper mapper,ILogger<RestaurantServices> logger)
+        public RestaurantServices(RestaurantDbContext dbContext, IMapper mapper, ILogger<RestaurantServices> logger)
         {
             _dbContext = dbContext;
             _mapper = mapper;
@@ -27,14 +26,14 @@ namespace RestaurantAPI.Services
 
         public void Update(int id, UpdateRestaurantDto dto)
         {
-            var restaurant=_dbContext.Restaurants
+            var restaurant = _dbContext.Restaurants
                 .FirstOrDefault(r => r.Id == id);
 
             if (restaurant == null)
                 throw new NotFoundException("Restaurant not found");
 
             restaurant = _mapper.Map(dto, restaurant);
-                                                                    
+
             _dbContext.Restaurants.Update(restaurant);
             _dbContext.SaveChanges();
         }
@@ -44,9 +43,9 @@ namespace RestaurantAPI.Services
         {
             _logger.LogError($"Restaurnt with id: {id} DELETE action invoked");
 
-            var restaurant=_dbContext.Restaurants
-                .Include(r=>r.Address)
-                .FirstOrDefault(r=>r.Id == id);
+            var restaurant = _dbContext.Restaurants
+                .Include(r => r.Address)
+                .FirstOrDefault(r => r.Id == id);
 
             if (restaurant == null)
                 throw new NotFoundException("Restaurant not found");
@@ -81,7 +80,7 @@ namespace RestaurantAPI.Services
                 .Include(r => r.Dishes)
                 .ToList();
 
-            var  restaurantDtos = _mapper.Map<List<RestaurantDto>>(restaurants);
+            var restaurantDtos = _mapper.Map<List<RestaurantDto>>(restaurants);
 
             return restaurantDtos;
         }

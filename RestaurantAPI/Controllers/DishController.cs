@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RestaurantAPI.Entities;
 using RestaurantAPI.Models;
 using RestaurantAPI.Services;
 
@@ -36,7 +35,7 @@ namespace RestaurantAPI.Controllers
 
 
         [HttpGet("{dishId}")]
-        public ActionResult GetById([FromRoute] int restaurantId,[FromRoute] int dishId)
+        public ActionResult GetById([FromRoute] int restaurantId, [FromRoute] int dishId)
         {
             var dishDto = _service.GetById(restaurantId, dishId);
 
@@ -54,9 +53,9 @@ namespace RestaurantAPI.Controllers
 
 
         [HttpDelete("{dishId}")]
-        public ActionResult DeleteById([FromRoute] int restaurantId,[FromRoute] int dishId)
+        public ActionResult DeleteById([FromRoute] int restaurantId, [FromRoute] int dishId)
         {
-            _service.DeleteById(restaurantId,dishId);
+            _service.DeleteById(restaurantId, dishId);
 
             return NoContent();
         }

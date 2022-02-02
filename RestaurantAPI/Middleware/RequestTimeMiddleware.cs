@@ -12,7 +12,7 @@ namespace RestaurantAPI.Middleware
         public RequestTimeMiddleware(ILogger<RequestTimeMiddleware> logger)
         {
             _logger = logger;
-            _stopwatch= new Stopwatch();
+            _stopwatch = new Stopwatch();
         }
 
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
@@ -26,7 +26,7 @@ namespace RestaurantAPI.Middleware
             {
                 var message = $"" +
                     $"Request [{context.Request.Method}] at  [{context.Request.Path}] - time elapsed : {elapsedTime} ms";
-               
+
                 _logger.LogInformation(message);
             }
         }

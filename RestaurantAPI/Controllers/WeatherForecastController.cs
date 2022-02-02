@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RestaurantAPI.Controllers
 {
@@ -39,7 +36,7 @@ namespace RestaurantAPI.Controllers
                 var results = _service.Get(numOfResults, range.MinTemp, range.MaxTemp);
                 return Ok(results);
             }
-                return BadRequest();
+            return BadRequest();
         }
     }
 }

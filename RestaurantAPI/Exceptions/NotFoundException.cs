@@ -1,5 +1,4 @@
-﻿using NLog.LayoutRenderers;
-using System;
+﻿using System;
 
 namespace RestaurantAPI.Exceptions
 {

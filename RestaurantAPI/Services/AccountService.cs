@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.JsonWebTokens;
-using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using RestaurantAPI.Controllers;
 using RestaurantAPI.Entities;
@@ -12,7 +8,6 @@ using RestaurantAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,7 +52,7 @@ namespace RestaurantAPI.Services
 
             if (!string.IsNullOrEmpty(user.Nationality))
             {
-                claims.Add(new Claim("Nationality", user.Nationality)); 
+                claims.Add(new Claim("Nationality", user.Nationality));
             }
 
 
@@ -68,10 +63,10 @@ namespace RestaurantAPI.Services
             var token = new JwtSecurityToken(_authenticationSettings.JwtIssuer,
                 _authenticationSettings.JwtIssuer,
                 claims,
-                expires:dateOfExpire,
-                signingCredentials: cred);  
+                expires: dateOfExpire,
+                signingCredentials: cred);
 
-            var tokenhandler= new JwtSecurityTokenHandler();
+            var tokenhandler = new JwtSecurityTokenHandler();
 
             return tokenhandler.WriteToken(token);
         }
