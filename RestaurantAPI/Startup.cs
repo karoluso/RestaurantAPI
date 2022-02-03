@@ -14,6 +14,8 @@ using RestaurantAPI.Middleware;
 using RestaurantAPI.Models;
 using RestaurantAPI.Models.Validators;
 using RestaurantAPI.Services;
+using System;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace RestaurantAPI
@@ -59,6 +61,8 @@ namespace RestaurantAPI
             });
 
             services.AddScoped<IAuthorizationHandler, MinimumAgeRequirementHandler>();
+            services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementHandler>();
+
             services.AddTransient<IWeatherForecastService, WeatherForecastService>();
             services.AddControllers().AddFluentValidation();
             services.AddDbContext<RestaurantDbContext>();
@@ -107,4 +111,5 @@ namespace RestaurantAPI
             });
         }
     }
+
 }

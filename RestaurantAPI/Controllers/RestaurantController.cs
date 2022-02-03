@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RestaurantAPI.Models;
 using RestaurantAPI.Services;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace RestaurantAPI.Controllers
 {
@@ -12,10 +13,12 @@ namespace RestaurantAPI.Controllers
     public class RestaurantController : ControllerBase
     {
         private readonly IRestaurantService _restaurantService;
+      
 
         public RestaurantController(IRestaurantService service)
         {
             _restaurantService = service;
+          
         }
 
 
@@ -23,7 +26,7 @@ namespace RestaurantAPI.Controllers
         public ActionResult Update([FromRoute] int id, [FromBody] UpdateRestaurantDto dto)
         {
 
-            _restaurantService.Update(id, dto);
+            _restaurantService.UpdateAsync(id, dto, User);  // User from ClaimPrincipals
 
             return Ok();
         }
@@ -32,7 +35,7 @@ namespace RestaurantAPI.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete([FromRoute] int id)
         {
-            _restaurantService.Delete(id);
+            _restaurantService.Delete(id, User);
 
             return NoContent();
         }
@@ -42,7 +45,9 @@ namespace RestaurantAPI.Controllers
         [Authorize(Roles = "Admin,Manager")]
         public ActionResult CreateRestaurant([FromBody] CreateRestaurantDto dto)
         {
-            int id = _restaurantService.CreateRestaurant(dto);
+            var userId = int.Parse(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value);   //check for null
+
+            int id = _restaurantService.CreateRestaurant(dto,userId);
 
             return Created($"/api/restaruant/{id}", null);
         }

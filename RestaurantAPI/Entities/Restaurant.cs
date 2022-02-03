@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Security.Policy;
 
 namespace RestaurantAPI.Entities
 {
@@ -12,7 +13,9 @@ namespace RestaurantAPI.Entities
         public bool HasDelivery { get; set; }
         public string ContactEmail { get; set; }
         public string ContactNumber { get; set; }
-
+        
+        public int? CreatedByUserId { get; set; }
+        public virtual User  CreatedByUser { get; set; }
 
         public int AddressId { get; set; }
         public virtual Address Address { get; set; }

@@ -19,6 +19,8 @@
       app.UseAuthorization(); ( must be between userouting and useendpoints);
       app.UseEndpoints(endpoints =>
       
+      >controller  inherits from ControlerBase class that contains numerous properties and methods , among them there is a
+        claim principal so we have the access to the caims from the controller class.
 
      Add validation fro LoginUserDto
 
