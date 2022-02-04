@@ -41,10 +41,10 @@ namespace RestaurantAPI.Services
                 throw new NotFoundException("Restaurant not found");
 
 
-            var authorisationResult = await _authorizationService.AuthorizeAsync(_userContextService.User, restaurant,
+            var authorizationResult = await _authorizationService.AuthorizeAsync(_userContextService.User, restaurant,
                 new ResourceOperationRequirement(ResourceOperationEnum.Update));
 
-            if (!authorisationResult.Succeeded)
+            if (!authorizationResult.Succeeded)
             {
                 throw new NotAuthorizedException();
             }
@@ -99,13 +99,14 @@ namespace RestaurantAPI.Services
         }
 
 
-        public IEnumerable<RestaurantDto> GetAll()
+        public  IEnumerable<RestaurantDto> GetAll()
         {
             var restaurants = _dbContext
                 .Restaurants
                 .Include(r => r.Address)
                 .Include(r => r.Dishes)
                 .ToList();
+
 
             var restaurantDtos = _mapper.Map<List<RestaurantDto>>(restaurants);
 

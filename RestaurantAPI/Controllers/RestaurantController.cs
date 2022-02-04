@@ -28,7 +28,7 @@ namespace RestaurantAPI.Controllers
         public async Task<ActionResult> UpdateAsync([FromRoute] int id, [FromBody] UpdateRestaurantDto dto)
         {
 
-          await  _restaurantService.UpdateAsync(id, dto);  // User from ClaimPrincipals
+          await  _restaurantService.UpdateAsync(id, dto); 
 
             return Ok();
         }
@@ -47,7 +47,7 @@ namespace RestaurantAPI.Controllers
         [Authorize(Roles = "Admin,Manager")]
         public ActionResult CreateRestaurant([FromBody] CreateRestaurantDto dto)
         {
-            var userId = int.Parse(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value);   //check for null
+           
 
             int id = _restaurantService.CreateRestaurant(dto);
 
@@ -57,7 +57,8 @@ namespace RestaurantAPI.Controllers
 
         [HttpGet]
         //[Authorize(Policy ="HasNationality")]
-        [Authorize(Policy = "HasMinimumAge20")]
+        //[Authorize(Policy = "HasMinimumAge20")]
+        [Authorize(Policy = "CreatedMinimum2Restaurants")]
         public ActionResult<IEnumerable<RestaurantDto>> GetAll()
         {
             #region alternative 
