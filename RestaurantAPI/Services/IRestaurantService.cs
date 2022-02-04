@@ -11,10 +11,10 @@ namespace RestaurantAPI.Services
 
         public IEnumerable<RestaurantDto> GetAll();
 
-        public int CreateRestaurant(CreateRestaurantDto dto, int userId);
+        public int CreateRestaurant(CreateRestaurantDto dto);
 
-        public void Delete(int id, ClaimsPrincipal user);
+        public void Delete(int id);
 
-        public Task UpdateAsync(int id, UpdateRestaurantDto dto, ClaimsPrincipal user);
+        public Task UpdateAsync(int id, UpdateRestaurantDto dto);
     }
 }

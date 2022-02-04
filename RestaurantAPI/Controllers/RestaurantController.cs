@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantAPI.Models;
 using RestaurantAPI.Services;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace RestaurantAPI.Controllers
 {
@@ -13,20 +15,20 @@ namespace RestaurantAPI.Controllers
     public class RestaurantController : ControllerBase
     {
         private readonly IRestaurantService _restaurantService;
-      
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public RestaurantController(IRestaurantService service)
+        public RestaurantController(IRestaurantService service, IHttpContextAccessor httpContextAccessor)
         {
             _restaurantService = service;
-          
+            _httpContextAccessor = httpContextAccessor;
         }
 
 
         [HttpPut("{id}")]
-        public ActionResult Update([FromRoute] int id, [FromBody] UpdateRestaurantDto dto)
+        public async Task<ActionResult> UpdateAsync([FromRoute] int id, [FromBody] UpdateRestaurantDto dto)
         {
 
-            _restaurantService.UpdateAsync(id, dto, User);  // User from ClaimPrincipals
+          await  _restaurantService.UpdateAsync(id, dto);  // User from ClaimPrincipals
 
             return Ok();
         }
@@ -35,7 +37,7 @@ namespace RestaurantAPI.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete([FromRoute] int id)
         {
-            _restaurantService.Delete(id, User);
+            _restaurantService.Delete(id);
 
             return NoContent();
         }
@@ -47,7 +49,7 @@ namespace RestaurantAPI.Controllers
         {
             var userId = int.Parse(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value);   //check for null
 
-            int id = _restaurantService.CreateRestaurant(dto,userId);
+            int id = _restaurantService.CreateRestaurant(dto);
 
             return Created($"/api/restaruant/{id}", null);
         }
