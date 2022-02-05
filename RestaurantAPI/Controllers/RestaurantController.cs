@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RestaurantAPI.Entities;
 using RestaurantAPI.Models;
 using RestaurantAPI.Services;
 using System.Collections.Generic;
@@ -60,7 +61,7 @@ namespace RestaurantAPI.Controllers
         //[Authorize(Policy ="HasNationality")]
         //[Authorize(Policy = "HasMinimumAge20")]
         //[Authorize(Policy = "CreatedMinimum2Restaurants")]
-        public ActionResult<IEnumerable<RestaurantDto>> GetAll([FromQuery] string searchPhrase)
+        public ActionResult<PageResult<Restaurant>> GetAll([FromQuery] RestaurantQuery restaurantQuery)
         {
             #region alternative 
             //var restaurantDtos = restaurants.Select(r =>  ChangeToDto(r) ); //mapping long way
@@ -70,9 +71,9 @@ namespace RestaurantAPI.Controllers
             //var restaurantDtos = _mapper.Map<List<RestaurantDto>>(restaurants);
             #endregion
 
-            var restaurantDtos = _restaurantService.GetAll(searchPhrase);
+            var result = _restaurantService.GetAll(restaurantQuery);
 
-            return Ok(restaurantDtos);
+            return Ok(result);
         }
 
         // private RestaurantDto ChangeToDto(Restaurant r)

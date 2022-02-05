@@ -23,7 +23,7 @@ namespace RestaurantAPI.Services
         private readonly IUserContextService _userContextService;
 
         public RestaurantServices(RestaurantDbContext dbContext, IMapper mapper, ILogger<RestaurantServices> logger,
-            IAuthorizationService authorizationService,IUserContextService userContextService)
+            IAuthorizationService authorizationService, IUserContextService userContextService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
@@ -69,7 +69,7 @@ namespace RestaurantAPI.Services
             if (restaurant == null)
                 throw new NotFoundException("Restaurant not found");
 
-            var authorisationResult =  _authorizationService.AuthorizeAsync(_userContextService.User, restaurant,
+            var authorisationResult = _authorizationService.AuthorizeAsync(_userContextService.User, restaurant,
                 new ResourceOperationRequirement(ResourceOperationEnum.Delete)).Result;
 
             if (!authorisationResult.Succeeded)
@@ -100,20 +100,30 @@ namespace RestaurantAPI.Services
         }
 
 
-        public  IEnumerable<RestaurantDto> GetAll(string searchPhrase)
+        public PageResult<RestaurantDto> GetAll(RestaurantQuery query)
         {
-            var restaurants = _dbContext
+            var baseQuery = _dbContext
                 .Restaurants
                 .Include(r => r.Address)
                 .Include(r => r.Dishes)
-                .Where(r=> searchPhrase==null || r.Name.ToLower().Contains(searchPhrase.ToLower())
-                || r.Description.ToLower().Contains(searchPhrase.ToLower()))
+                .Where(r => query.SearchPhrase == null ||
+                 r.Name.ToLower().Contains(query.SearchPhrase.ToLower()) ||
+                 r.Description.ToLower().Contains(query.SearchPhrase.ToLower()));
+
+
+            var totalItems = baseQuery.Count();
+
+            var restaurants = baseQuery
+                .Skip((query.PageNumber - 1) * query.PageSize)
+                .Take(query.PageSize)
                 .ToList();
 
 
             var restaurantDtos = _mapper.Map<List<RestaurantDto>>(restaurants);
 
-            return restaurantDtos;
+            var result = new PageResult<RestaurantDto>(restaurantDtos, totalItems, query.PageSize, query.PageNumber);
+
+            return result;
         }
 
 

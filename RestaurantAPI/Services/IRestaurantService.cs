@@ -1,4 +1,5 @@
-﻿using RestaurantAPI.Models;
+﻿using RestaurantAPI.Entities;
+using RestaurantAPI.Models;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace RestaurantAPI.Services
     {
         public RestaurantDto GetById(int id);
 
-        public IEnumerable<RestaurantDto> GetAll(string searchQuery);
+        public PageResult<RestaurantDto> GetAll(RestaurantQuery restaurant);
 
         public int CreateRestaurant(CreateRestaurantDto dto);
 
