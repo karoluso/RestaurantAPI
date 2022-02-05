@@ -28,4 +28,10 @@
 
      Add separate log file for logging info only 
 
+
+
+
+
      Doczytac pytanie Co dalej !! z pytan kursu.
+      
+     Jak opanuję to wszystko na  dobrym poziomie, to mogę myśleć już o szukaniu jakiejś pracy? Czy to jeszcze za mało? Pytam, bo z jednej strony widzę, że z tą wiedzą można już coś fajnego zrobić, ale z drugiej strony mam 19 lat dopiero i nie chcę mi się wierzyć, że już bym mógł coś tam działać...
