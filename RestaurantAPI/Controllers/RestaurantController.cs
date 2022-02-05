@@ -28,7 +28,7 @@ namespace RestaurantAPI.Controllers
         public async Task<ActionResult> UpdateAsync([FromRoute] int id, [FromBody] UpdateRestaurantDto dto)
         {
 
-          await  _restaurantService.UpdateAsync(id, dto); 
+            await _restaurantService.UpdateAsync(id, dto);
 
             return Ok();
         }
@@ -47,7 +47,7 @@ namespace RestaurantAPI.Controllers
         [Authorize(Roles = "Admin,Manager")]
         public ActionResult CreateRestaurant([FromBody] CreateRestaurantDto dto)
         {
-           
+
 
             int id = _restaurantService.CreateRestaurant(dto);
 
@@ -56,10 +56,11 @@ namespace RestaurantAPI.Controllers
 
 
         [HttpGet]
+        [AllowAnonymous]
         //[Authorize(Policy ="HasNationality")]
         //[Authorize(Policy = "HasMinimumAge20")]
-        [Authorize(Policy = "CreatedMinimum2Restaurants")]
-        public ActionResult<IEnumerable<RestaurantDto>> GetAll()
+        //[Authorize(Policy = "CreatedMinimum2Restaurants")]
+        public ActionResult<IEnumerable<RestaurantDto>> GetAll([FromQuery] string searchPhrase)
         {
             #region alternative 
             //var restaurantDtos = restaurants.Select(r =>  ChangeToDto(r) ); //mapping long way
@@ -69,7 +70,7 @@ namespace RestaurantAPI.Controllers
             //var restaurantDtos = _mapper.Map<List<RestaurantDto>>(restaurants);
             #endregion
 
-            var restaurantDtos = _restaurantService.GetAll();
+            var restaurantDtos = _restaurantService.GetAll(searchPhrase);
 
             return Ok(restaurantDtos);
         }

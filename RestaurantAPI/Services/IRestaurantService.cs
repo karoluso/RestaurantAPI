@@ -9,7 +9,7 @@ namespace RestaurantAPI.Services
     {
         public RestaurantDto GetById(int id);
 
-        public IEnumerable<RestaurantDto> GetAll();
+        public IEnumerable<RestaurantDto> GetAll(string searchQuery);
 
         public int CreateRestaurant(CreateRestaurantDto dto);
 
