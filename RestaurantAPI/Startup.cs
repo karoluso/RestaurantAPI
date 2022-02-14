@@ -83,6 +83,16 @@ namespace RestaurantAPI
             services.AddScoped<IUserContextService, UserContextService>();
             services.AddHttpContextAccessor();
             services.AddSwaggerGen();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("FrontEndClient", builder =>
+
+                    builder.AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .WithOrigins(Configuration["AllowedOrigins"])
+                );
+            });
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -90,6 +100,8 @@ namespace RestaurantAPI
         {
             ValidatorOptions.Global.LanguageManager.Enabled = false;  // just to have all messeges in english
 
+            app.UseStaticFiles();
+            app.UseCors("FrontEndClient");
             seeder.Seed();
 
             if (env.IsDevelopment())
