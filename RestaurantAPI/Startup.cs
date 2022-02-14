@@ -99,7 +99,8 @@ namespace RestaurantAPI
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, RestaurantSeeder seeder)
         {
             ValidatorOptions.Global.LanguageManager.Enabled = false;  // just to have all messeges in english
-
+            
+            app.UseResponseCaching();
             app.UseStaticFiles();
             app.UseCors("FrontEndClient");
             seeder.Seed();
