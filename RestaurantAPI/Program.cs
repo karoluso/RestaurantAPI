@@ -46,7 +46,7 @@ builder.Host.UseNLog();
 
     var authenticationSettings = new AuthenticationSettings();
 
-    builder.Configuration.GetSection("Authentication").Bind(authenticationSettings)
+    builder.Configuration.GetSection("Authentication").Bind(authenticationSettings);
 
     builder.Services.AddSingleton(authenticationSettings);
 
